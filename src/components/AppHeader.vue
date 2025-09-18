@@ -44,8 +44,6 @@
 
     &__logo {
       max-width: 185px;
-      width: 100%;
-      object-fit: contain;
     }
 
     &__info {
