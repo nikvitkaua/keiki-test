@@ -1,0 +1,30 @@
+@import "normalize";
+@import "variables";
+
+body {
+  font-family: "Hind", sans-serif;
+  background-color: $light-theme-background;
+  color: $light-theme-text;
+  transition: $transition;
+
+  &.dark {
+    background-color: $dark-theme-background;
+    color: $dark-theme-text;
+  }
+}
+
+img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+a {
+  transition: $transition;
+}
+
+.container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
