@@ -3,10 +3,13 @@
     <AppHeader />
     <main class="main">
       <div class="container">
-        <h1 class="title">Facts About Cats To Share With Kids!</h1>
-        <div class="tools">
+        <section>
+          <h1 class="title">Facts About Cats To Share With Kids!</h1>
+        </section>
+        <section class="tools">
           <FactsSearch />
-        </div>
+          <FactsFilter />
+        </section>
       </div>
     </main>
     <AppFooter />
@@ -17,13 +20,15 @@
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import FactsSearch from '@/components/FactsSearch.vue';
+import FactsFilter from '@/components/FactsFilter.vue';
 
 export default {
   name: 'App',
   components: {
     AppHeader,
     AppFooter,
-    FactsSearch
+    FactsSearch,
+    FactsFilter
   },
   mounted() {
     const savedTheme = localStorage.getItem("theme");

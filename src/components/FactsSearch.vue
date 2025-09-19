@@ -36,6 +36,7 @@
       border-radius: 6px;
       font-size: 16px;
       color: $light-theme-text;
+      transition: $transition;
     }
   }
 
