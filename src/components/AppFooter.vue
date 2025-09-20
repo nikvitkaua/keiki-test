@@ -140,10 +140,30 @@ export default {
     .footer {
       &__wrapper {
         grid-template-columns: 1fr;
+        row-gap: 30px;
       }
 
       &__logo {
         margin: 0 auto;
+      }
+
+      &__menus {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      & h3 {
+        text-align: center;
+      }
+
+      &__menu ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 40px;
+      }
+
+      &__social ul {
+        justify-content: center;
       }
     }
   }
