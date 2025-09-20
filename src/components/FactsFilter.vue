@@ -162,4 +162,10 @@
     }
   }
 
+
+  @media (max-width: 768px) {
+    .facts-filter {
+      
+    }
+  }
 </style>
