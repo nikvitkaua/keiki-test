@@ -7,7 +7,10 @@
           <h1 class="title">Facts About Cats To Share With Kids!</h1>
         </section>
 
-        <FactsTools v-model="searchText" />
+        <FactsTools
+          :search="searchText" @update:search="searchText = $event"
+          :filter="selectedFilter" @update:filter="selectedFilter = $event"
+        />
 
         <AppFacts :facts="filteredFacts" @load-more="getFacts" />
       </div>
@@ -40,15 +43,34 @@ export default {
       limit: 9,
       totalImages: 9,
       searchText: '',
+      selectedFilter: 'All facts',
     };
   },
 
   computed: {
     filteredFacts() {
-      if (!this.searchText) return this.facts;
-      return this.facts.filter(f =>
-        f.fact.toLowerCase().includes(this.searchText.toLowerCase())
-      );
+      let result = this.facts;
+
+      if (this.searchText) {
+        result = result.filter(f => f.fact.toLowerCase().includes(this.searchText.toLowerCase()));
+      }
+
+      switch (this.selectedFilter) {
+        case 'Show long ones first':
+          result = result.slice().sort((a, b) => b.fact.length - a.fact.length);
+          break;
+        case 'Show short ones first':
+          result = result.slice().sort((a, b) => a.fact.length - b.fact.length);
+          break;
+        case 'Short ones only':
+          result = result.filter(f => f.fact.length < 100);
+          break;
+        case 'Long ones only':
+          result = result.filter(f => f.fact.length > 100);
+          break;
+      }
+
+      return result;
     },
   },
 

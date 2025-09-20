@@ -5,10 +5,13 @@ import FactsFilter from '@/components/FactsFilter.vue';
 export default {
   name: 'FactsTools',
   components: { FactsSearch, FactsFilter },
-  props: ['value'],
+  props: ['search', 'filter'],
   methods: {
-    updateValue(val) {
-      this.$emit('input', val)
+    updateSearch(val) {
+      this.$emit('update:search', val);
+    },
+    updateFilter(val) {
+      this.$emit('update:filter', val);
     }
   }
 }
@@ -17,8 +20,8 @@ export default {
 
 <template>
   <section class="tools">
-    <FactsSearch :value="value" @input="updateValue" />
-    <FactsFilter />
+    <FactsSearch :value="search" @input="updateSearch" />
+    <FactsFilter :value="filter" @input="updateFilter" />
   </section>
 </template>
 
