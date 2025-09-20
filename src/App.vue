@@ -7,9 +7,9 @@
           <h1 class="title">Facts About Cats To Share With Kids!</h1>
         </section>
 
-        <FactsTools />
+        <FactsTools v-model="searchText" />
 
-        <AppFacts :facts="facts" @load-more="getFacts" />
+        <AppFacts :facts="filteredFacts" @load-more="getFacts" />
       </div>
     </main>
     <AppFooter />
@@ -39,9 +39,18 @@ export default {
       page: 1,
       limit: 9,
       totalImages: 9,
+      searchText: '',
     };
   },
 
+  computed: {
+    filteredFacts() {
+      if (!this.searchText) return this.facts;
+      return this.facts.filter(f =>
+        f.fact.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    },
+  },
 
   mounted() {
     const savedTheme = localStorage.getItem("theme");

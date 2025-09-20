@@ -1,27 +1,26 @@
-<template>
-  <section class="tools">
-    <FactsSearch />
-    <FactsFilter />
-  </section>
-</template>
-
 <script>
 import FactsSearch from '@/components/FactsSearch.vue';
 import FactsFilter from '@/components/FactsFilter.vue';
 
 export default {
-  name: 'App',
-  components: {
-    FactsSearch,
-    FactsFilter
-  },
-  mounted() {
-    const savedTheme = localStorage.getItem("theme");
-
-    savedTheme === "dark" ? document.body.classList.add("dark") : document.body.classList.remove("dark");
+  name: 'FactsTools',
+  components: { FactsSearch, FactsFilter },
+  props: ['value'],
+  methods: {
+    updateValue(val) {
+      this.$emit('input', val)
+    }
   }
 }
 </script>
+
+
+<template>
+  <section class="tools">
+    <FactsSearch :value="value" @input="updateValue" />
+    <FactsFilter />
+  </section>
+</template>
 
 <style scoped>
   .tools {
