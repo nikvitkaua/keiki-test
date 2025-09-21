@@ -103,6 +103,7 @@
     border-radius: 100%;
     background-color: $light-theme-active;
     color: $light-theme-background;
+    cursor: pointer;
 
     ul {
       position: absolute;
