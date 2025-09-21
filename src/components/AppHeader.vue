@@ -7,6 +7,12 @@
       ThemeToggler
     },
 
+    data() {
+      return {
+        showDropdown: false
+      };
+    },
+
     computed: {
       isAuthenticated() {
         return localStorage.getItem("auth") === "true";
@@ -15,6 +21,18 @@
         return localStorage.getItem('username' || '');
       }
     },
+
+    methods: {
+      toggleDropdown() {
+        this.showDropdown = !this.showDropdown;
+      },
+      logout() {
+        localStorage.removeItem('auth');
+        localStorage.removeItem('username');
+        this.showDropdown = false;
+        this.$router.push('/login');
+      }
+    }
   }
 </script>
 
@@ -29,7 +47,13 @@
         <div class="header__info">
           <ThemeToggler />
           
-          <div v-if="isAuthenticated" class="account">{{ username.charAt(0).toUpperCase() }}</div>
+          <div v-if="isAuthenticated" @click="toggleDropdown" class="account">
+            {{ username.charAt(0).toUpperCase() }}
+
+            <ul v-show="showDropdown">
+              <li @click="logout">Log out</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -55,6 +79,7 @@
     }
 
     &__info {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 14px;
@@ -76,7 +101,24 @@
     font-size: 1.5rem;
     font-weight: 500;
     border-radius: 100%;
-    background-color: #636AF2;
-    color: #FFFFFF;
+    background-color: $light-theme-active;
+    color: $light-theme-background;
+
+    ul {
+      position: absolute;
+      left: 0;
+      bottom: -80px;
+      width: 148px;
+
+      li {
+        padding: 16px 12px;
+        font-weight: 400;
+        font-size: 16px;
+        background-color: $light-theme-violet;
+        color: $light-theme-text;
+        cursor: pointer;
+        border-radius: 6px;
+      }
+    }
   }
 </style>
