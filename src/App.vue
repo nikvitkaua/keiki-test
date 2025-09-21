@@ -1,24 +1,3 @@
-<template>
-  <div id="app">
-    <AppHeader />
-    <main class="main">
-      <div class="container">
-        <section>
-          <h1 class="title">Facts About Cats To Share With Kids!</h1>
-        </section>
-
-        <FactsTools
-          :search="searchText" @update:search="searchText = $event"
-          :filter="selectedFilter" @update:filter="selectedFilter = $event"
-        />
-
-        <AppFacts :facts="filteredFacts" @load-more="getFacts" />
-      </div>
-    </main>
-    <AppFooter />
-  </div>
-</template>
-
 <script>
 import axios from 'axios';
 
@@ -39,11 +18,13 @@ export default {
   data() {
     return {
       facts: [],
+      preloadedFacts: [],
       page: 1,
       limit: 9,
       totalImages: 9,
       searchText: '',
       selectedFilter: 'All facts',
+      loading: false,
     };
   },
 
@@ -82,28 +63,77 @@ export default {
   },
 
   methods: {
+    async fetchFacts(page) {
+      const response = await axios.get("https://catfact.ninja/facts", {
+        params: {
+          limit: this.limit,
+          page,
+        },
+      });
+
+      return response.data.data.map((fact, index) => ({
+        ...fact,
+        image: `/images/image-${(this.facts.length + index) % this.totalImages + 1}.jpg`,
+      }));
+    },
+
     async getFacts() {
+      this.loading = true;
       try {
-        const response = await axios.get("https://catfact.ninja/facts", {
-          params: {
-            limit: this.limit,
-            page: this.page,
-          },
-        });
+        if (this.preloadedFacts.length > 0) {
+          this.facts.push(...this.preloadedFacts);
+          this.preloadedFacts = [];
+        } else {
+          const newFacts = await this.fetchFacts(this.page);
+          this.facts.push(...newFacts);
+          this.page += 1;
+        }
 
-        const newFacts = response.data.data.map((fact, index) => ({
-          ...fact,
-          image: `/images/image-${(this.facts.length + index) % this.totalImages + 1}.jpg`,
-        }));
+        this.preloadFacts();
+      } catch {
+        console.error("Error with data");
+      } finally {
+        this.loading = false;
+      }
+    },
 
-        this.facts.push(...newFacts);
+    async preloadFacts() {
+      try {
+        const newFacts = await this.fetchFacts(this.page);
+        this.preloadedFacts = newFacts;
         this.page += 1;
       } catch {
-        console.error("Error with data")
+        console.error("Error with preload");
       }
-    }
+    },
   }
 }
 </script>
+
+
+<template>
+  <div id="app">
+    <AppHeader />
+    <main class="main">
+      <div class="container">
+        <section>
+          <h1 class="title">Facts About Cats To Share With Kids!</h1>
+        </section>
+
+        <FactsTools
+          :search="searchText" @update:search="searchText = $event"
+          :filter="selectedFilter" @update:filter="selectedFilter = $event"
+        />
+
+        <AppFacts 
+          :facts="filteredFacts"
+          :loading="loading" 
+          @load-more="getFacts"
+        />
+      </div>
+    </main>
+    <AppFooter />
+  </div>
+</template>
 
 <style></style>
