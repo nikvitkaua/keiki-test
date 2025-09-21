@@ -5,7 +5,16 @@
     name: "AppHeader",
     components: {
       ThemeToggler
-    }
+    },
+
+    computed: {
+      isAuthenticated() {
+        return localStorage.getItem("auth") === "true";
+      },
+      username() {
+        return localStorage.getItem('username' || '');
+      }
+    },
   }
 </script>
 
@@ -20,8 +29,7 @@
         <div class="header__info">
           <ThemeToggler />
           
-          <!-- Тут можна було б зробити кнопку взаємодії з акаунтом (logout, email, settings etc.) -->
-          <div class="account">A</div>
+          <div v-if="isAuthenticated" class="account">{{ username.charAt(0).toUpperCase() }}</div>
         </div>
       </div>
     </div>

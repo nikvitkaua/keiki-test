@@ -46,6 +46,11 @@ a {
   text-transform: capitalize;
   transition: $transition;
   margin-bottom: 32px;
+
+  &--login {
+    font-size: 1.5rem;
+    margin-bottom: 48px;
+  }
 }
 
 @media (max-width: 768px) {
