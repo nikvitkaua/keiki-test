@@ -60,7 +60,7 @@ export default {
         <label for="name"> Name
           <input 
             type="text" 
-            id="name" 
+            id="name"
             placeholder="Enter your name"
             v-model="name"
             :class="{'input--error': error}"
@@ -105,7 +105,7 @@ export default {
         border: 1px solid $light-theme-active;
       }
 
-      &--error {
+      &.input--error {
         border: 1px solid $error-color;
       }
     }
