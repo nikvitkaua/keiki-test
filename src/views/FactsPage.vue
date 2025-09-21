@@ -6,6 +6,8 @@ import AppFooter from '@/components/AppFooter.vue';
 import FactsTools from '@/components/FactsTools.vue';
 import AppFacts from '@/components/AppFacts.vue';
 
+import { factsStore } from '@/store/factsStore';
+
 export default {
   name: 'App',
   components: {
@@ -80,18 +82,20 @@ export default {
     async getFacts() {
       this.loading = true;
       try {
-        if (this.preloadedFacts.length > 0) {
-          this.facts.push(...this.preloadedFacts);
-          this.preloadedFacts = [];
-        } else {
-          const newFacts = await this.fetchFacts(this.page);
-          this.facts.push(...newFacts);
-          this.page += 1;
-        }
+        const newFacts = await this.fetchFacts(this.page);
+        
+        const factsWithId = newFacts.map((fact, index) => ({
+          ...fact,
+          id: this.facts.length + index + 1
+        }));
+
+        this.facts.push(...factsWithId);
+        factsStore.setFacts(this.facts);
+        this.page += 1;
 
         this.preloadFacts();
-      } catch {
-        console.error("Error with data");
+      } catch (err) {
+        console.error("Error loading facts", err);
       } finally {
         this.loading = false;
       }

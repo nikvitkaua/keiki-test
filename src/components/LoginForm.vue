@@ -139,6 +139,10 @@ export default {
 
   body.dark {
     #loginForm {
+      label {
+        color: $dark-theme-text;
+      }
+
       input {
         background-color: $dark-theme-violet-bg;
         color: $dark-theme-text;

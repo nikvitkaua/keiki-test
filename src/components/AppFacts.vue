@@ -23,10 +23,10 @@
   <section class="facts">
     <ul class="facts__wrapper">
       <li v-for="fact in facts" :key="fact.fact" class="facts__item">
-        <a href="dsadas.com/">
-          <img :src="fact.image" alt="cat image"  class="facts__img">
+        <router-link :to="`/fact/${fact.id}`">
+          <img :src="fact.image" alt="cat image" class="facts__img">
           <p :class="['facts__text', textClass(fact)]">{{ fact.fact }}</p>
-        </a>
+        </router-link>
       </li>
     </ul>
 

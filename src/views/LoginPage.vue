@@ -4,6 +4,7 @@
   import LoginForm from '@/components/LoginForm.vue';
 
   export default {
+    name: "LoginPage",
     components: {
       AppHeader,
       AppFooter,
